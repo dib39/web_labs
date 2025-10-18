@@ -1,0 +1,95 @@
+{% extends "lab6/base.html" %}
+
+{% block title %}Панель управления{% endblock %}
+
+{% block content %}
+<h2>📊 Панель управления</h2>
+
+{% if not user.is_authenticated %}
+    <div class="alert alert-warning">
+        <h3>Добро пожаловать!</h3>
+        <p>Для работы с системой управления задачами необходимо <a href="/lab6/login/">войти</a> или <a href="/lab6/register/">зарегистрироваться</a>.</p>
+    </div>
+{% else %}
+    <!-- Статистика -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 2rem 0;">
+        <div style="background: #E3F2FD; padding: 1.5rem; border-radius: 8px; text-align: center;">
+            <h3>📝 Всего задач</h3>
+            <p style="font-size: 2rem; margin: 0; color: #1565C0;">{{ stats.total_tasks }}</p>
+        </div>
+        <div style="background: #FFF3E0; padding: 1.5rem; border-radius: 8px; text-align: center;">
+            <h3>⏳ К выполнению</h3>
+            <p style="font-size: 2rem; margin: 0; color: #EF6C00;">{{ stats.tasks_todo }}</p>
+        </div>
+        <div style="background: #E8F5E8; padding: 1.5rem; border-radius: 8px; text-align: center;">
+            <h3>✅ Выполнено</h3>
+            <p style="font-size: 2rem; margin: 0; color: #2E7D32;">{{ stats.tasks_done }}</p>
+        </div>
+        <div style="background: #F3E5F5; padding: 1.5rem; border-radius: 8px; text-align: center;">
+            <h3>📂 Проекты</h3>
+            <p style="font-size: 2rem; margin: 0; color: #7B1FA2;">{{ stats.total_projects }}</p>
+        </div>
+    </div>
+
+    <!-- Последние задачи -->
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 2rem;">
+        <div>
+            <h3>📋 Последние задачи</h3>
+            {% if user_tasks %}
+                <div style="max-height: 400px; overflow-y: auto;">
+                    {% for task in user_tasks %}
+                    <div style="border: 1px solid #ddd; padding: 1rem; margin: 0.5rem 0; border-radius: 4px; 
+                                {% if task.priority == 'high' %}border-left: 4px solid #FF6B6B;
+                                {% elif task.priority == 'medium' %}border-left: 4px solid #FFD166;
+                                {% else %}border-left: 4px solid #06D6A0;{% endif %}">
+                        <strong><a href="/lab6/tasks/{{ task.id }}/">{{ task.title }}</a></strong>
+                        <br>
+                        <small>Проект: {{ task.project.name }}</small> |
+                        <small>Статус: 
+                            {% if task.status == 'todo' %}⏳
+                            {% elif task.status == 'in_progress' %}🔄
+                            {% elif task.status == 'review' %}👀
+                            {% elif task.status == 'done' %}✅
+                            {% endif %}
+                        </small>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p>У вас пока нет задач</p>
+            {% endif %}
+        </div>
+
+        <!-- Доступные проекты -->
+        <div>
+            <h3>📂 Ваши проекты</h3>
+            {% if accessible_projects %}
+                <div style="max-height: 400px; overflow-y: auto;">
+                    {% for project in accessible_projects %}
+                    <div style="border: 1px solid #ddd; padding: 1rem; margin: 0.5rem 0; border-radius: 4px;">
+                        <strong>{{ project.name }}</strong>
+                        <br>
+                        <small>{{ project.description|truncatewords:10 }}</small>
+                        <br>
+                        <small>Создатель: {{ project.created_by.username }}</small>
+                        {% if not project.is_public %}
+                            <br><small style="color: #666;">🔒 Приватный</small>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p>У вас пока нет проектов</p>
+            {% endif %}
+        </div>
+    </div>
+
+    {% if is_manager %}
+    <div style="margin-top: 2rem; padding: 1rem; background: #E8F5E8; border-radius: 8px;">
+        <h4>👨‍💼 Панель менеджера</h4>
+        <p>У вас есть права менеджера. Вы можете создавать задачи и назначать их другим пользователям.</p>
+        <a href="/lab6/tasks/create/" class="btn btn-success">Создать новую задачу</a>
+    </div>
+    {% endif %}
+{% endif %}
+{% endblock %}

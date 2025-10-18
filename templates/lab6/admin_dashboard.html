@@ -1,0 +1,37 @@
+{% extends "lab6/base.html" %}
+
+{% block title %}Панель администратора{% endblock %}
+
+{% block content %}
+<h2>⚙️ Панель администратора</h2>
+
+<div class="alert alert-info">
+    <strong>Доступно только для администраторов</strong>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin: 2rem 0;">
+    <div style="background: #E3F2FD; padding: 1.5rem; border-radius: 8px; text-align: center;">
+        <h3>👥 Пользователи</h3>
+        <p style="font-size: 2rem; margin: 0; color: #1565C0;">{{ total_users }}</p>
+    </div>
+    
+    <div style="background: #FFF3E0; padding: 1.5rem; border-radius: 8px; text-align: center;">
+        <h3>📂 Проекты</h3>
+        <p style="font-size: 2rem; margin: 0; color: #EF6C00;">{{ total_projects }}</p>
+    </div>
+    
+    <div style="background: #E8F5E8; padding: 1.5rem; border-radius: 8px; text-align: center;">
+        <h3>📝 Задачи</h3>
+        <p style="font-size: 2rem; margin: 0; color: #2E7D32;">{{ total_tasks }}</p>
+    </div>
+</div>
+
+<div style="margin-top: 2rem;">
+    <h3>Быстрые действия</h3>
+    <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+        <a href="/admin/" class="btn btn-primary" target="_blank">Админка Django</a>
+        <a href="/admin/auth/user/" class="btn" target="_blank">Управление пользователями</a>
+        <a href="/admin/lab6/project/" class="btn" target="_blank">Управление проектами</a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,96 @@
+{% extends "lab6/base.html" %}
+
+{% block title %}Список задач{% endblock %}
+
+{% block content %}
+<h2>📋 Список задач</h2>
+
+<!-- Фильтры -->
+<div style="background: #f8f9fa; padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+    <form method="get" style="display: flex; gap: 1rem; align-items: end;">
+        <div>
+            <label>Статус:</label>
+            <select name="status" style="padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
+                <option value="">Все</option>
+                <option value="todo" {% if status_filter == 'todo' %}selected{% endif %}>К выполнению</option>
+                <option value="in_progress" {% if status_filter == 'in_progress' %}selected{% endif %}>В работе</option>
+                <option value="review" {% if status_filter == 'review' %}selected{% endif %}>На проверке</option>
+                <option value="done" {% if status_filter == 'done' %}selected{% endif %}>Выполнено</option>
+            </select>
+        </div>
+        
+        <div>
+            <label>Приоритет:</label>
+            <select name="priority" style="padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
+                <option value="">Все</option>
+                <option value="low" {% if priority_filter == 'low' %}selected{% endif %}>Низкий</option>
+                <option value="medium" {% if priority_filter == 'medium' %}selected{% endif %}>Средний</option>
+                <option value="high" {% if priority_filter == 'high' %}selected{% endif %}>Высокий</option>
+                <option value="critical" {% if priority_filter == 'critical' %}selected{% endif %}>Критический</option>
+            </select>
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Применить</button>
+        
+        {% if status_filter or priority_filter %}
+            <a href="/lab6/tasks/" class="btn">Сбросить</a>
+        {% endif %}
+    </form>
+</div>
+
+{% if tasks %}
+    <div style="display: grid; gap: 1rem;">
+        {% for task in tasks %}
+        <div style="border: 1px solid #ddd; padding: 1rem; border-radius: 8px; 
+                    border-left: 4px solid 
+                    {% if task.priority == 'critical' %}#FF6B6B
+                    {% elif task.priority == 'high' %}#FF9E6B
+                    {% elif task.priority == 'medium' %}#FFD166
+                    {% else %}#06D6A0{% endif %};">
+            <div style="display: flex; justify-content: between; align-items: start;">
+                <div style="flex: 1;">
+                    <h4 style="margin: 0 0 0.5rem 0;">
+                        <a href="/lab6/tasks/{{ task.id }}/">{{ task.title }}</a>
+                    </h4>
+                    <p style="margin: 0 0 0.5rem 0; color: #666;">{{ task.description|truncatewords:20 }}</p>
+                    
+                    <div style="display: flex; gap: 1rem; font-size: 0.9rem; color: #666;">
+                        <span>📂 {{ task.project.name }}</span>
+                        <span>👤 {{ task.assigned_to.username|default:"Не назначен" }}</span>
+                        <span>
+                            {% if task.status == 'todo' %}⏳ К выполнению
+                            {% elif task.status == 'in_progress' %}🔄 В работе
+                            {% elif task.status == 'review' %}👀 На проверке
+                            {% elif task.status == 'done' %}✅ Выполнено
+                            {% endif %}
+                        </span>
+                        {% if task.due_date %}
+                            <span>📅 {{ task.due_date }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <div style="text-align: right;">
+                    <span style="background: 
+                        {% if task.priority == 'critical' %}#FF6B6B
+                        {% elif task.priority == 'high' %}#FF9E6B
+                        {% elif task.priority == 'medium' %}#FFD166
+                        {% else %}#06D6A0{% endif %}; 
+                        color: white; padding: 0.25rem 0.5rem; border-radius: 12px; font-size: 0.8rem;">
+                        {{ task.get_priority_display }}
+                    </span>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="alert alert-info">
+        {% if status_filter or priority_filter %}
+            🔍 Задачи по заданным фильтрам не найдены.
+        {% else %}
+            📭 У вас пока нет задач.
+        {% endif %}
+    </div>
+{% endif %}
+{% endblock %}

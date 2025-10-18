@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'lab1',
     'lab2',
     'lab3', 'lab4', 'lab5',
+    'lab6',
 ]
 
 MIDDLEWARE = [
@@ -135,3 +136,8 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Настройки аутентификации
+LOGIN_URL = '/lab6/login/'
+LOGIN_REDIRECT_URL = '/lab6/'
+LOGOUT_REDIRECT_URL = '/lab6/'

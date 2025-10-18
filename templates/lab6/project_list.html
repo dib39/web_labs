@@ -1,0 +1,50 @@
+{% extends "lab6/base.html" %}
+
+{% block title %}Список проектов{% endblock %}
+
+{% block content %}
+<h2>📂 Список проектов</h2>
+
+{% if can_create_project %}
+<div style="text-align: right; margin-bottom: 1rem;">
+    <a href="/lab6/projects/create/" class="btn btn-success">➕ Создать проект</a>
+</div>
+{% endif %}
+
+{% if projects %}
+    <div style="display: grid; gap: 1rem;">
+        {% for project in projects %}
+        <div style="border: 1px solid #ddd; padding: 1.5rem; border-radius: 8px;">
+            <div style="display: flex; justify-content: between; align-items: start;">
+                <div style="flex: 1;">
+                    <h3 style="margin: 0 0 0.5rem 0;">
+                        {{ project.name }}
+                        {% if not project.is_public %}
+                            <small style="color: #666;">🔒</small>
+                        {% endif %}
+                    </h3>
+                    <p style="margin: 0 0 1rem 0; color: #666;">{{ project.description }}</p>
+                    
+                    <div style="display: flex; gap: 1rem; font-size: 0.9rem; color: #666;">
+                        <span>👤 Создатель: {{ project.created_by.username }}</span>
+                        <span>📅 Создан: {{ project.created_at|date:"d.m.Y" }}</span>
+                        <span>📝 Задач: {{ project.task_count }}</span>
+                    </div>
+                </div>
+                
+                <div>
+                    <a href="#" class="btn btn-primary">Просмотреть</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="alert alert-info">
+        📭 У вас пока нет проектов.
+        {% if can_create_project %}
+            <a href="/lab6/projects/create/">Создайте первый проект</a>
+        {% endif %}
+    </div>
+{% endif %}
+{% endblock %}

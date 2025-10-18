@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}Система управления задачами{% endblock %}</title>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f5f5f5; }
+        .header { background: #4A90E2; color: white; padding: 1rem 2rem; }
+        .nav { background: white; padding: 1rem 2rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .nav a { margin-right: 1.5rem; text-decoration: none; color: #4A90E2; font-weight: 500; }
+        .container { max-width: 1200px; margin: 2rem auto; padding: 0 2rem; }
+        .content { background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .alert { padding: 1rem; border-radius: 4px; margin: 1rem 0; }
+        .alert-info { background: #E3F2FD; color: #1565C0; }
+        .alert-warning { background: #FFF3E0; color: #EF6C00; }
+        .btn { padding: 0.5rem 1rem; border: none; border-radius: 4px; cursor: pointer; text-decoration: none; display: inline-block; }
+        .btn-primary { background: #4A90E2; color: white; }
+        .btn-success { background: #66BB6A; color: white; }
+        .user-info { float: right; color: white; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>📋 Система управления задачами</h1>
+        <div class="user-info">
+            {% if user.is_authenticated %}
+                Привет, <strong>{{ user.username }}</strong> | 
+                <a href="/lab6/logout/" style="color: white;">Выйти</a>
+            {% else %}
+                <a href="/lab6/login/" style="color: white;">Войти</a> |
+                <a href="/lab6/register/" style="color: white;">Регистрация</a>
+            {% endif %}
+        </div>
+    </div>
+    
+    {% if user.is_authenticated %}
+<div class="nav">
+    <a href="/lab6/">Дашборд</a>
+    <a href="/lab6/tasks/">Задачи</a>
+    <a href="/lab6/projects/">Проекты</a>
+    
+    {% if perms.lab6.can_assign_tasks or user.is_staff %}
+        <a href="/lab6/tasks/create/" style="color: #66BB6A;">➕ Создать задачу</a>
+    {% endif %}
+    
+    <a href="/lab6/projects/create/" style="color: #66BB6A;">➕ Создать проект</a>
+    
+    {% if user.is_staff %}
+        <a href="/lab6/admin/" style="color: #FF6B6B;">⚙️ Админка</a>
+    {% endif %}
+</div>
+{% endif %}
+    
+    <div class="container">
+        <div class="content">
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+            
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+</body>
+</html>

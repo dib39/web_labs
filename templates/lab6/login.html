@@ -1,0 +1,35 @@
+{% extends "lab6/base.html" %}
+
+{% block title %}Вход в систему{% endblock %}
+
+{% block content %}
+<div style="max-width: 400px; margin: 0 auto;">
+    <h2>🔐 Вход в систему</h2>
+    
+    {% if form.errors %}
+        <div class="alert alert-warning">
+            Неверное имя пользователя или пароль. Попробуйте снова.
+        </div>
+    {% endif %}
+    
+    <form method="post">
+        {% csrf_token %}
+        
+        <div style="margin-bottom: 1rem;">
+            <label for="id_username">Имя пользователя:</label>
+            {{ form.username }}
+        </div>
+        
+        <div style="margin-bottom: 1rem;">
+            <label for="id_password">Пароль:</label>
+            {{ form.password }}
+        </div>
+        
+        <button type="submit" class="btn btn-primary" style="width: 100%;">Войти</button>
+    </form>
+    
+    <div style="margin-top: 1rem; text-align: center;">
+        <p>Нет аккаунта? <a href="/lab6/register/">Зарегистрироваться</a></p>
+    </div>
+</div>
+{% endblock %}

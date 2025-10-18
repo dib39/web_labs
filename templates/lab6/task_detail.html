@@ -1,0 +1,88 @@
+{% extends "lab6/base.html" %}
+
+{% block title %}Задача: {{ task.title }}{% endblock %}
+
+{% block content %}
+<h2>📄 Задача: {{ task.title }}</h2>
+
+<div style="display: grid; grid-template-columns: 2fr 1fr; gap: 2rem;">
+    <!-- Основная информация -->
+    <div>
+        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; margin-bottom: 1rem;">
+            <h3>Описание</h3>
+            <p>{{ task.description|linebreaks }}</p>
+        </div>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div style="background: white; padding: 1rem; border: 1px solid #ddd; border-radius: 8px;">
+                <h4>📂 Проект</h4>
+                <p>{{ task.project.name }}</p>
+                <small style="color: #666;">{{ task.project.description }}</small>
+            </div>
+            
+            <div style="background: white; padding: 1rem; border: 1px solid #ddd; border-radius: 8px;">
+                <h4>👤 Ответственный</h4>
+                <p>{{ task.assigned_to.username|default:"Не назначен" }}</p>
+            </div>
+            
+            <div style="background: white; padding: 1rem; border: 1px solid #ddd; border-radius: 8px;">
+                <h4>📅 Срок</h4>
+                <p>{{ task.due_date|default:"Не установлен" }}</p>
+            </div>
+            
+            <div style="background: white; padding: 1rem; border: 1px solid #ddd; border-radius: 8px;">
+                <h4>👤 Создатель</h4>
+                <p>{{ task.created_by.username }}</p>
+                <small style="color: #666;">{{ task.created_at|date:"d.m.Y H:i" }}</small>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Боковая панель -->
+    <div>
+        <div style="background: white; padding: 1.5rem; border: 1px solid #ddd; border-radius: 8px; margin-bottom: 1rem;">
+            <h4>Статус задачи</h4>
+            <div style="text-align: center; padding: 1rem;">
+                <div style="font-size: 3rem; margin-bottom: 0.5rem;">
+                    {% if task.status == 'todo' %}⏳
+                    {% elif task.status == 'in_progress' %}🔄
+                    {% elif task.status == 'review' %}👀
+                    {% elif task.status == 'done' %}✅
+                    {% endif %}
+                </div>
+                <strong>{{ task.get_status_display }}</strong>
+            </div>
+        </div>
+        
+        <div style="background: white; padding: 1.5rem; border: 1px solid #ddd; border-radius: 8px;">
+            <h4>Приоритет</h4>
+            <div style="text-align: center; padding: 1rem;">
+                <div style="font-size: 2rem; margin-bottom: 0.5rem;">
+                    {% if task.priority == 'critical' %}🔥
+                    {% elif task.priority == 'high' }}⚠️
+                    {% elif task.priority == 'medium' }}📋
+                    {% elif task.priority == 'low' }}📄
+                    {% endif %}
+                </div>
+                <strong style="color: 
+                    {% if task.priority == 'critical' %}#FF6B6B
+                    {% elif task.priority == 'high' %}#FF9E6B
+                    {% elif task.priority == 'medium' %}#FFD166
+                    {% else %}#06D6A0{% endif %};">
+                    {{ task.get_priority_display }}
+                </strong>
+            </div>
+        </div>
+        
+        {% if can_edit %}
+        <div style="margin-top: 1rem;">
+            <a href="#" class="btn btn-primary" style="width: 100%; text-align: center;">Редактировать задачу</a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<div style="margin-top: 2rem;">
+    <a href="/lab6/tasks/" class="btn">← Назад к списку задач</a>
+</div>
+{% endblock %}
