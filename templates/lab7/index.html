@@ -1,0 +1,79 @@
+{% extends "lab7/base.html" %}
+
+{% block title %}Главная - Cookies и Сессии{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>Добро пожаловать в демонстрацию Cookies и Сессий!</h2>
+    <p>Эта страница демонстрирует работу с Cookies и сессиями в Django.</p>
+    
+    <div class="stats">
+        <div class="stat-card">
+            <h3>📊 Посещения</h3>
+            <p>Вы посетили эту страницу: <strong>{{ visit_count }} раз</strong></p>
+        </div>
+        
+        <div class="stat-card">
+            <h3>🎨 Тема</h3>
+            <p>Текущая тема: <strong>{{ theme }}</strong></p>
+        </div>
+        
+        <div class="stat-card">
+            <h3>🛒 Корзина</h3>
+            <p>Товаров в корзине: <strong>{{ cart_items_count }}</strong></p>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>🔧 Быстрые действия</h3>
+    
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+        <div>
+            <h4>Смена темы</h4>
+            <form action="/lab7/set-theme/" method="post">
+                {% csrf_token %}
+                <select name="theme" style="width: 100%; padding: 0.5rem; margin-bottom: 0.5rem;">
+                    <option value="light">🌞 Светлая тема</option>
+                    <option value="dark">🌙 Темная тема</option>
+                </select>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Применить тему</button>
+            </form>
+        </div>
+        
+        <div>
+            <h4>Добавить в корзину</h4>
+            <form action="/lab7/cart/" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="add">
+                <select name="product_name" style="width: 100%; padding: 0.5rem; margin-bottom: 0.5rem;">
+                    <option value="Ноутбук">💻 Ноутбук - $999</option>
+                    <option value="Смартфон">📱 Смартфон - $699</option>
+                    <option value="Наушники">🎧 Наушники - $199</option>
+                </select>
+                <input type="hidden" name="price" value="999">
+                <button type="submit" class="btn btn-success" style="width: 100%;">Добавить в корзину</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>📚 Что демонстрируется в этой лабораторной:</h3>
+    <ul>
+        <li><strong>Cookies:</strong> Сохранение темы оформления, языка, предпочтений</li>
+        <li><strong>Сессии:</strong> Счетчик посещений, корзина покупок, временные данные</li>
+        <li><strong>Аутентификация:</strong> Привязка данных к пользователю</li>
+        <li><strong>База данных:</strong> Сохранение настроек и истории</li>
+    </ul>
+    
+    <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+        <a href="/lab7/session/" class="btn btn-primary">📊 Информация о сессии</a>
+        <a href="/lab7/cookies/" class="btn btn-warning">🍪 Управление Cookies</a>
+        <a href="/lab7/cart/" class="btn btn-success">🛒 Корзина покупок</a>
+        {% if user.is_authenticated %}
+            <a href="/lab7/preferences/" class="btn btn-primary">👤 Мои настройки</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

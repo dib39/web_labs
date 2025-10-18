@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'lab1',
     'lab2',
     'lab3', 'lab4', 'lab5',
-    'lab6',
+    'lab6', 'lab7',
 ]
 
 MIDDLEWARE = [
@@ -141,3 +141,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_URL = '/lab6/login/'
 LOGIN_REDIRECT_URL = '/lab6/'
 LOGOUT_REDIRECT_URL = '/lab6/'
+
+# Настройки сессий
+SESSION_COOKIE_AGE = 1209600  # 2 недели в секундах
+SESSION_SAVE_EVERY_REQUEST = True  # Сохранять сессию при каждом запросе

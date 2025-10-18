@@ -1,0 +1,116 @@
+{% extends "lab7/base.html" %}
+
+{% block title %}Информация о сессии{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>📊 Информация о вашей сессии</h2>
+    
+    <div class="stats">
+        <div class="stat-card">
+            <h3>🔑 Ключ сессии</h3>
+            <p><code>{{ session_data.session_key }}</code></p>
+        </div>
+        
+        <div class="stat-card">
+            <h3>📈 Посещения</h3>
+            <p>{{ session_data.visit_count }} раз</p>
+        </div>
+        
+        <div class="stat-card">
+            <h3>⏰ Истекает через</h3>
+            <p>{{ session_data.session_expiry }} секунд</p>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>📝 Данные сессии</h3>
+    
+    <table style="width: 100%; border-collapse: collapse;">
+        <thead>
+            <tr style="background: var(--nav-bg);">
+                <th style="padding: 0.5rem; text-align: left; border: 1px solid var(--border-color);">Ключ</th>
+                <th style="padding: 0.5rem; text-align: left; border: 1px solid var(--border-color);">Значение</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="padding: 0.5rem; border: 1px solid var(--border-color);">visit_count</td>
+                <td style="padding: 0.5rem; border: 1px solid var(--border-color);">{{ session_data.visit_count }}</td>
+            </tr>
+            <tr>
+                <td style="padding: 0.5rem; border: 1px solid var(--border-color);">last_visit</td>
+                <td style="padding: 0.5rem; border: 1px solid var(--border-color);">{{ session_data.last_visit }}</td>
+            </tr>
+            {% for key in session_data.all_session_keys %}
+                {% if key != 'visit_count' and key != 'last_visit' %}
+                <tr>
+                    <td style="padding: 0.5rem; border: 1px solid var(--border-color);">{{ key }}</td>
+                    <td style="padding: 0.5rem; border: 1px solid var(--border-color);">
+                        {% with value=request.session.items %}
+                            {% for k, v in value %}
+                                {% if k == key %}
+                                    {% if k == '_auth_user_id' %}
+                                        ID пользователя: {{ v }}
+                                    {% elif k == '_auth_user_backend' %}
+                                        {{ v }}
+                                    {% elif k == '_auth_user_hash' %}
+                                        <code>Хэш аутентификации</code>
+                                    {% else %}
+                                        {{ v }}
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
+                        {% endwith %}
+                    </td>
+                </tr>
+                {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <div style="margin-top: 1rem;">
+        <form action="/lab7/clear-session/" method="post" style="display: inline;">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">🗑️ Очистить сессию</button>
+        </form>
+        <a href="/lab7/" class="btn btn-primary">← Назад</a>
+    </div>
+</div>
+
+<div class="card">
+    <h3>🍪 Cookies браузера</h3>
+    
+    {% if cookies %}
+        <table style="width: 100%; border-collapse: collapse;">
+            <thead>
+                <tr style="background: var(--nav-bg);">
+                    <th style="padding: 0.5rem; border: 1px solid var(--border-color);">Имя Cookie</th>
+                    <th style="padding: 0.5rem; border: 1px solid var(--border-color);">Значение</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for name, value in cookies.items %}
+                <tr>
+                    <td style="padding: 0.5rem; border: 1px solid var(--border-color);">{{ name }}</td>
+                    <td style="padding: 0.5rem; border: 1px solid var(--border-color);">
+                        {% if name == 'csrftoken' or name == 'sessionid' %}
+                            <code>Защищенное значение</code>
+                        {% else %}
+                            {{ value }}
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Нет сохраненных Cookies.</p>
+    {% endif %}
+    
+    <div style="margin-top: 1rem;">
+        <a href="/lab7/cookies/" class="btn btn-warning">🍪 Управление Cookies</a>
+    </div>
+</div>
+{% endblock %}

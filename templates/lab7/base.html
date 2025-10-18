@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}Cookies и Сессии - Лаба 7{% endblock %}</title>
+    <meta charset="UTF-8">
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #333333;
+            --header-bg: #4A90E2;
+            --nav-bg: #f8f9fa;
+            --card-bg: #ffffff;
+            --border-color: #dee2e6;
+        }
+        
+        .theme-dark {
+            --bg-color: #1a1a1a;
+            --text-color: #ffffff;
+            --header-bg: #2c3e50;
+            --nav-bg: #34495e;
+            --card-bg: #2c3e50;
+            --border-color: #34495e;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: var(--bg-color);
+            color: var(--text-color);
+            transition: all 0.3s ease;
+        }
+        
+        .header {
+            background: var(--header-bg);
+            color: white;
+            padding: 1rem 2rem;
+        }
+        
+        .nav {
+            background: var(--nav-bg);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .nav a {
+            margin-right: 1.5rem;
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+        
+        .card {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 2rem;
+        }
+        
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin: 0.25rem;
+        }
+        
+        .btn-primary { background: #4A90E2; color: white; }
+        .btn-success { background: #28a745; color: white; }
+        .btn-danger { background: #dc3545; color: white; }
+        .btn-warning { background: #ffc107; color: black; }
+        
+        .user-info { float: right; color: white; }
+        .stats { display: flex; gap: 1rem; margin: 1rem 0; }
+        .stat-card { flex: 1; padding: 1rem; background: var(--nav-bg); border-radius: 4px; }
+    </style>
+</head>
+<body class="theme-{{ theme|default:'light' }}">
+    <div class="header">
+        <h1>🍪 Cookies и Сессии - Лабораторная 7</h1>
+        <div class="user-info">
+            {% if user.is_authenticated %}
+                Привет, <strong>{{ user.username }}</strong> | 
+                <a href="/lab7/preferences/" style="color: white;">Настройки</a> |
+                <a href="/lab6/logout/" style="color: white;">Выйти</a>
+            {% else %}
+                <a href="/lab6/login/" style="color: white;">Войти</a> |
+                <a href="/lab6/register/" style="color: white;">Регистрация</a>
+            {% endif %}
+        </div>
+    </div>
+    
+    <div class="nav">
+        <a href="/lab7/">Главная</a>
+        <a href="/lab7/session/">Сессия</a>
+        <a href="/lab7/cookies/">Cookies</a>
+        <a href="/lab7/cart/">🛒 Корзина (<span id="cart-count">{{ cart_items_count|default:0 }}</span>)</a>
+        
+        {% if user.is_authenticated %}
+            <a href="/lab7/preferences/">👤 Настройки</a>
+        {% endif %}
+        
+        <!-- Переключатель темы -->
+        <form action="/lab7/set-theme/" method="post" style="display: inline;">
+            {% csrf_token %}
+            <select name="theme" onchange="this.form.submit()">
+                <option value="light" {% if theme == 'light' %}selected{% endif %}>🌞 Светлая</option>
+                <option value="dark" {% if theme == 'dark' %}selected{% endif %}>🌙 Темная</option>
+            </select>
+        </form>
+    </div>
+    
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+
+    <script>
+        // Обновление счетчика корзины
+        function updateCartCount(count) {
+            document.getElementById('cart-count').textContent = count;
+        }
+        
+        // Применение темы из Cookie при загрузке
+        document.addEventListener('DOMContentLoaded', function() {
+            const theme = getCookie('theme') || 'light';
+            document.body.className = 'theme-' + theme;
+        });
+        
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+    </script>
+</body>
+</html>

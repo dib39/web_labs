@@ -1,0 +1,98 @@
+{% extends "lab7/base.html" %}
+
+{% block title %}Мои настройки{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>👤 Мои настройки</h2>
+    <p>Эти настройки сохраняются в базе данных и привязаны к вашему аккаунту.</p>
+</div>
+
+<div class="card">
+    <h3>⚙️ Настройки отображения</h3>
+    <form action="/lab7/preferences/" method="post">
+        {% csrf_token %}
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+            <div>
+                <div style="margin-bottom: 1rem;">
+                    <label><strong>🎨 Тема оформления:</strong></label>
+                    <select name="theme" style="width: 100%; padding: 0.5rem;">
+                        <option value="light" {% if preferences.theme == 'light' %}selected{% endif %}>🌞 Светлая</option>
+                        <option value="dark" {% if preferences.theme == 'dark' %}selected{% endif %}>🌙 Темная</option>
+                        <option value="auto" {% if preferences.theme == 'auto' %}selected{% endif %}>🤖 Авто</option>
+                    </select>
+                </div>
+                
+                <div style="margin-bottom: 1rem;">
+                    <label><strong>🌐 Язык:</strong></label>
+                    <select name="language" style="width: 100%; padding: 0.5rem;">
+                        <option value="ru" {% if preferences.language == 'ru' %}selected{% endif %}>🇷🇺 Русский</option>
+                        <option value="en" {% if preferences.language == 'en' %}selected{% endif %}>🇺🇸 English</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div>
+                <div style="margin-bottom: 1rem;">
+                    <label><strong>📄 Элементов на странице:</strong></label>
+                    <select name="items_per_page" style="width: 100%; padding: 0.5rem;">
+                        <option value="10" {% if preferences.items_per_page == 10 %}selected{% endif %}>10</option>
+                        <option value="25" {% if preferences.items_per_page == 25 %}selected{% endif %}>25</option>
+                        <option value="50" {% if preferences.items_per_page == 50 %}selected{% endif %}>50</option>
+                        <option value="100" {% if preferences.items_per_page == 100 %}selected{% endif %}>100</option>
+                    </select>
+                </div>
+                
+                <div style="margin-bottom: 1rem;">
+                    <label>
+                        <input type="checkbox" name="notifications" {% if preferences.notifications_enabled %}checked{% endif %}>
+                        🔔 Включить уведомления
+                    </label>
+                </div>
+            </div>
+        </div>
+        
+        <button type="submit" class="btn btn-success">💾 Сохранить настройки</button>
+    </form>
+</div>
+
+<div class="card">
+    <h3>📊 Активные сессии</h3>
+    
+    {% if user_sessions %}
+        <table style="width: 100%; border-collapse: collapse;">
+            <thead>
+                <tr style="background: var(--nav-bg);">
+                    <th style="padding: 0.5rem; border: 1px solid var(--border-color);">IP адрес</th>
+                    <th style="padding: 0.5rem; border: 1px solid var(--border-color);">Устройство</th>
+                    <th style="padding: 0.5rem; border: 1px solid var(--border-color);">Последняя активность</th>
+                    <th style="padding: 0.5rem; border: 1px solid var(--border-color);">Статус</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for session in user_sessions %}
+                <tr>
+                    <td style="padding: 0.5rem; border: 1px solid var(--border-color);">{{ session.ip_address }}</td>
+                    <td style="padding: 0.5rem; border: 1px solid var(--border-color);">{{ session.user_agent|truncatewords:5 }}</td>
+                    <td style="padding: 0.5rem; border: 1px solid var(--border-color);">{{ session.last_activity|date:"d.m.Y H:i" }}</td>
+                    <td style="padding: 0.5rem; border: 1px solid var(--border-color);">
+                        {% if session.is_active %}
+                            <span style="color: green;">✅ Активна</span>
+                        {% else %}
+                            <span style="color: red;">❌ Неактивна</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Нет активных сессий.</p>
+    {% endif %}
+</div>
+
+<div style="margin-top: 1rem;">
+    <a href="/lab7/" class="btn btn-primary">← Назад на главную</a>
+</div>
+{% endblock %}
