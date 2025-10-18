@@ -1,0 +1,87 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+
+#: lab4/models.py:4
+msgid "Department"
+msgstr "Отдел"
+
+#: lab4/models.py:5
+msgid "Departments"
+msgstr "Отделы"
+
+#: lab4/models.py:11
+msgid "Employee"
+msgstr "Сотрудник"
+
+#: lab4/models.py:12
+msgid "Employees"
+msgstr "Сотрудники"
+
+#: lab4/models.py:25
+msgid "Project"
+msgstr "Проект"
+
+#: lab4/models.py:26
+msgid "Projects"
+msgstr "Проекты"
+
+#: lab4/models.py:39
+msgid "Project assignment"
+msgstr "Назначение на проект"
+
+#: lab4/models.py:40
+msgid "Project assignments"
+msgstr "Назначения на проекты"
+
+#: lab4/templates/lab4/base.html:8
+msgid "Employee Management System"
+msgstr "Система управления сотрудниками"
+
+#: lab4/templates/lab4/base.html:22
+msgid "Employees"
+msgstr "Сотрудники"
+
+#: lab4/templates/lab4/base.html:23
+msgid "Projects"
+msgstr "Проекты"
+
+#: lab4/templates/lab4/base.html:24
+msgid "Departments"
+msgstr "Отделы"
+
+#: lab4/templates/lab4/base.html:25
+msgid "Statistics"
+msgstr "Статистика"
+
+#: lab4/templates/lab4/employee_list.html:4
+msgid "Employee List"
+msgstr "Список сотрудников"
+
+#: lab4/templates/lab4/employee_list.html:11
+msgid "First Name"
+msgstr "Имя"
+
+#: lab4/templates/lab4/employee_list.html:12
+msgid "Last Name"
+msgstr "Фамилия"
+
+#: lab4/templates/lab4/employee_list.html:13
+msgid "Position"
+msgstr "Должность"
+
+#: lab4/templates/lab4/employee_list.html:14
+msgid "Department"
+msgstr "Отдел"
+
+#: lab4/templates/lab4/employee_list.html:15
+msgid "Hire Date"
+msgstr "Дата найма"
+
+#: lab4/templates/lab4/employee_list.html:16
+msgid "Salary"
+msgstr "Зарплата"
+
+#: lab4/templates/lab4/employee_list.html:30
+msgid "No employee data"
+msgstr "Нет данных о сотрудниках"

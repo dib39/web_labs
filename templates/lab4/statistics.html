@@ -1,0 +1,23 @@
+{% extends "lab4/base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Statistics" %}{% endblock %}
+
+{% block content %}
+<h2>{% trans "Company Statistics" %}</h2>
+
+<div class="stats-card">
+    <h3>{% trans "Total Employees" %}</h3>
+    <p style="font-size: 2em; font-weight: bold;">{{ stats.total_employees }}</p>
+</div>
+
+<div class="stats-card">
+    <h3>{% trans "Total Projects" %}</h3>
+    <p style="font-size: 2em; font-weight: bold;">{{ stats.total_projects }}</p>
+</div>
+
+<div class="stats-card">
+    <h3>{% trans "Total Departments" %}</h3>
+    <p style="font-size: 2em; font-weight: bold;">{{ stats.total_departments }}</p>
+</div>
+{% endblock %}

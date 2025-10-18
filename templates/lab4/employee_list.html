@@ -1,0 +1,37 @@
+{% extends "lab4/base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Employee List" %}{% endblock %}
+
+{% block content %}
+<h2>{% trans "Employee List" %}</h2>
+
+{% if employees %}
+    <table>
+        <thead>
+            <tr>
+                <th>{% trans "First Name" %}</th>
+                <th>{% trans "Last Name" %}</th>
+                <th>{% trans "Position" %}</th>
+                <th>{% trans "Department" %}</th>
+                <th>{% trans "Hire Date" %}</th>
+                <th>{% trans "Salary" %}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for employee in employees %}
+            <tr>
+                <td>{{ employee.first_name }}</td>
+                <td>{{ employee.last_name }}</td>
+                <td>{{ employee.position }}</td>
+                <td>{{ employee.department.name }}</td>
+                <td>{{ employee.hire_date }}</td>
+                <td>${{ employee.salary }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>{% trans "No employee data" %}</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,49 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}{% trans "Employee Management System" %}{% endblock %}</title>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .header { background: #2E86AB; color: white; padding: 20px; border-radius: 5px; }
+        .nav { background: #f5f5f5; padding: 15px; margin: 20px 0; border-radius: 5px; }
+        .nav a { margin-right: 15px; text-decoration: none; color: #2E86AB; font-weight: bold; }
+        .content { margin: 20px 0; }
+        table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .language-switcher { float: right; }
+        .stats-card { background: #A8DADC; padding: 20px; margin: 10px; border-radius: 5px; display: inline-block; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>{% trans "Employee Management System" %}</h1>
+            <div class="language-switcher">
+                <form action="{% url 'set_language' %}" method="post">
+                    {% csrf_token %}
+                    <input name="next" type="hidden" value="{{ request.path }}">
+                    <select name="language" onchange="this.form.submit()">
+                        <option value="ru" {% if request.LANGUAGE_CODE == 'ru' %}selected{% endif %}>Русский</option>
+                        <option value="en" {% if request.LANGUAGE_CODE == 'en' %}selected{% endif %}>English</option>
+                    </select>
+                </form>
+            </div>
+        </div>
+        
+        <div class="nav">
+            <a href="/lab4/">{% trans "Employees" %}</a>
+            <a href="/lab4/projects/">{% trans "Projects" %}</a>
+            <a href="/lab4/departments/">{% trans "Departments" %}</a>
+            <a href="/lab4/statistics/">{% trans "Statistics" %}</a>
+        </div>
+        
+        <div class="content">
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+</body>
+</html>
