@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Лабораторная работа №2</title>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .container { max-width: 800px; margin: 0 auto; }
+        .header { background: #2196F3; color: white; padding: 20px; border-radius: 5px; }
+        .content { margin: 20px 0; }
+        .nav { background: #f5f5f5; padding: 15px; border-radius: 5px; }
+        .nav a { margin-right: 15px; text-decoration: none; color: #2196F3; }
+        .info-card { border: 1px solid #ddd; padding: 15px; margin: 10px 0; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Лабораторная работа №2</h1>
+            <p>Создание Web-проекта с использованием системы управления зависимостями</p>
+        </div>
+        
+        <div class="nav">
+            <a href="/lab2/">Главная</a>
+            <a href="/lab2/books/">Список книг</a>
+            <a href="/lab2/add-data/">Добавить тестовые данные</a>
+            <a href="/admin/lab2/book/">Админка книг</a>
+        </div>
+        
+        <div class="content">
+            <div class="info-card">
+                <h3>Структура проекта Django</h3>
+                <ul>
+                    <li><strong>lab_project/</strong> - настройки проекта (аналог родительского pom.xml)</li>
+                    <li><strong>lab2/</strong> - приложение (аналог Maven модуля)</li>
+                    <li><strong>requirements.txt</strong> - зависимости (аналог pom.xml)</li>
+                    <li><strong>manage.py</strong> - утилита управления (аналог Maven goals)</li>
+                </ul>
+            </div>
+            
+            <div class="info-card">
+                <h3>Выполненные задачи:</h3>
+                <ul>
+                    <li>✓ Создано приложение lab2</li>
+                    <li>✓ Настроены модели данных (Book)</li>
+                    <li>✓ Созданы представления и URL маршруты</li>
+                    <li>✓ Настроены шаблоны</li>
+                    <li>✓ Создан файл зависимостей requirements.txt</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Лабораторная работа №1</title>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .container { max-width: 800px; margin: 0 auto; }
+        .header { background: #4CAF50; color: white; padding: 20px; border-radius: 5px; }
+        .content { margin: 20px 0; }
+        .success { color: #4CAF50; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Лабораторная работа №1</h1>
+            <p>Установка и настройка среды разработки Web-приложения</p>
+        </div>
+        
+        <div class="content">
+            <h2>Статус системы: <span class="success">✓ Работает</span></h2>
+            
+            <h3>Установленные компоненты:</h3>
+            <ul>
+                <li>Python {{ python_version }}</li>
+                <li>Django {{ django_version }}</li>
+                <li>Виртуальное окружение: активировано</li>
+                <li>Сервер разработки: запущен</li>
+                <li>База данных: SQLite</li>
+            </ul>
+            
+            <h3>Доступные страницы:</h3>
+            <ul>
+                <li><a href="/lab1/">Статус сервера</a></li>
+                <li><a href="/lab1/info/">Информация о системе</a></li>
+                <li><a href="/admin/">Административная панель</a></li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

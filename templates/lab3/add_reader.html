@@ -1,0 +1,31 @@
+{% extends "lab3/base.html" %}
+
+{% block title %}Добавить читателя - Лаба 3{% endblock %}
+
+{% block content %}
+<h2>Добавить нового читателя</h2>
+
+<form method="post">
+    {% csrf_token %}
+    
+    <div class="form-group">
+        {{ form.name.label_tag }}
+        {{ form.name }}
+        {% if form.name.errors %}
+            <div class="error">{{ form.name.errors }}</div>
+        {% endif %}
+    </div>
+    
+    <button type="submit" class="btn">Добавить читателя</button>
+    <a href="{% url 'books_list' %}" style="margin-left: 10px;">Отмена</a>
+</form>
+
+<h3 style="margin-top: 30px;">Существующие читатели</h3>
+<ul>
+    {% for reader in readers %}
+        <li>{{ reader.name }}</li>
+    {% empty %}
+        <li>Пока нет читателей</li>
+    {% endfor %}
+</ul>
+{% endblock %}

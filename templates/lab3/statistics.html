@@ -1,0 +1,44 @@
+{% extends "lab3/base.html" %}
+
+{% block title %}Статистика - Лаба 3{% endblock %}
+
+{% block content %}
+<h2>Статистика чтения</h2>
+
+{% if stats %}
+    <table>
+        <thead>
+            <tr>
+                <th>Читатель</th>
+                <th>Всего книг</th>
+                <th>Прочитано</th>
+                <th>Не прочитано</th>
+                <th>Прогресс</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for stat in stats %}
+            <tr>
+                <td>{{ stat.reader.name }}</td>
+                <td>{{ stat.total_books }}</td>
+                <td class="success">{{ stat.read_books }}</td>
+                <td class="error">
+                    {% widthratio stat.total_books stat.read_books 1 as unread_books %}
+                    {{ unread_books }}
+                </td>
+                <td>
+                    {% if stat.total_books > 0 %}
+                        {{ stat.read_books }}/{{ stat.total_books }} 
+                        ({% widthratio stat.read_books stat.total_books 100 %}%)
+                    {% else %}
+                        0%
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>Нет данных для отображения статистики.</p>
+{% endif %}
+{% endblock %}
