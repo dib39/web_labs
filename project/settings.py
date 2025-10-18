@@ -39,10 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
-    'lab1',
+    'lab1', 'rest_framework',
     'lab2',
     'lab3', 'lab4', 'lab5',
-    'lab6', 'lab7',
+    'lab6', 'lab7', 'lab8'
 ]
 
 MIDDLEWARE = [
@@ -145,3 +145,16 @@ LOGOUT_REDIRECT_URL = '/lab6/'
 # Настройки сессий
 SESSION_COOKIE_AGE = 1209600  # 2 недели в секундах
 SESSION_SAVE_EVERY_REQUEST = True  # Сохранять сессию при каждом запросе
+
+# Настройки REST Framework
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',
+    ],
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+    ]
+}
+
+# CORS настройки (для разработки)
+CORS_ALLOW_ALL_ORIGINS = True
