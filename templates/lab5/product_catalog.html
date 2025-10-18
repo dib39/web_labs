@@ -1,0 +1,107 @@
+{% extends "lab5/base.html" %}
+
+{% block title %}Каталог товаров{% endblock %}
+
+{% block content %}
+<h2>📦 Каталог товаров</h2>
+
+<!-- Фильтры -->
+<div class="filters">
+    <form method="get">
+        <label>Категория:
+            <select name="category">
+                <option value="">Все категории</option>
+                <option value="electronics" {% if category_filter == 'electronics' %}selected{% endif %}>Электроника</option>
+                <option value="clothing" {% if category_filter == 'clothing' %}selected{% endif %}>Одежда</option>
+                <option value="books" {% if category_filter == 'books' %}selected{% endif %}>Книги</option>
+                <option value="home" {% if category_filter == 'home' %}selected{% endif %}>Для дома</option>
+            </select>
+        </label>
+        
+        <label>
+            <input type="checkbox" name="in_stock" value="1" {% if in_stock_only %}checked{% endif %}>
+            Только в наличии
+        </label>
+        
+        <button type="submit">Применить фильтры</button>
+        {% if category_filter or in_stock_only %}
+            <a href="/lab5/products/">Сбросить</a>
+        {% endif %}
+    </form>
+</div>
+
+<!-- Статистика по категориям -->
+{% if category_stats %}
+<div style="margin-bottom: 20px;">
+    <h3>📊 Статистика по категориям:</h3>
+    <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+        {% for stat in category_stats %}
+        <div style="background: #E8F4FD; padding: 10px; border-radius: 5px; min-width: 150px;">
+            <strong>
+                {% if stat.category == 'electronics' %}📱 Электроника
+                {% elif stat.category == 'clothing' %}👕 Одежда
+                {% elif stat.category == 'books' %}📚 Книги
+                {% elif stat.category == 'home' %}🏠 Для дома
+                {% else %}{{ stat.category }}{% endif %}
+            </strong><br>
+            Товаров: {{ stat.total_products }}<br>
+            Средняя цена: ${{ stat.avg_price|floatformat:2 }}
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+
+<!-- Таблица товаров -->
+{% if products %}
+    <table>
+        <thead>
+            <tr>
+                <th>Название</th>
+                <th>Категория</th>
+                <th>Цена</th>
+                <th>Наличие</th>
+                <th>Количество</th>
+                <th>Описание</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in products %}
+            <tr>
+                <td><strong>{{ product.name }}</strong></td>
+                <td>
+                    {% if product.category == 'electronics' %}📱 Электроника
+                    {% elif product.category == 'clothing' %}👕 Одежда
+                    {% elif product.category == 'books' %}📚 Книги
+                    {% elif product.category == 'home' %}🏠 Для дома
+                    {% else %}{{ product.category }}{% endif %}
+                </td>
+                <td>${{ product.price|floatformat:2 }}</td>
+                <td>
+                    {% if product.in_stock %}
+                        <span style="color: green;">✅ В наличии</span>
+                    {% else %}
+                        <span style="color: red;">❌ Нет в наличии</span>
+                    {% endif %}
+                </td>
+                <td>{{ product.stock_quantity }} шт.</td>
+                <td>{{ product.description|truncatewords:10 }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <div style="margin-top: 20px;">
+        <strong>Найдено товаров: {{ products|length }}</strong>
+    </div>
+    
+{% else %}
+    <div class="alert alert-warning">
+        {% if category_filter or in_stock_only %}
+            🔍 Товары по заданным фильтрам не найдены.
+        {% else %}
+            📭 В каталоге пока нет товаров.
+        {% endif %}
+    </div>
+{% endif %}
+{% endblock %}

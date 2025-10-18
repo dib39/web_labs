@@ -1,0 +1,115 @@
+{% extends "lab5/base.html" %}
+{% load humanize %}
+
+{% block title %}Панель управления{% endblock %}
+
+{% block content %}
+<h2>📊 Панель управления</h2>
+
+<!-- Статистические карточки -->
+<div style="display: flex; flex-wrap: wrap; margin-bottom: 30px;">
+    <div class="stats-card">
+        <h3>👥 Клиенты</h3>
+        <p style="font-size: 2em; font-weight: bold;">{{ total_customers }}</p>
+    </div>
+    
+    <div class="stats-card">
+        <h3>📦 Товары</h3>
+        <p style="font-size: 2em; font-weight: bold;">{{ total_products }}</p>
+    </div>
+    
+    <div class="stats-card">
+        <h3>🛒 Заказы</h3>
+        <p style="font-size: 2em; font-weight: bold;">{{ total_orders }}</p>
+    </div>
+    
+    <div class="stats-card">
+        <h3>💰 Общий доход</h3>
+        <p style="font-size: 2em; font-weight: bold;">${{ order_stats.total_revenue|default:0|floatformat:2|intcomma }}</p>
+    </div>
+</div>
+
+<!-- Статистика по статусам заказов -->
+<div style="display: flex; flex-wrap: wrap; gap: 20px;">
+    <div style="flex: 1; min-width: 300px;">
+        <h3>Статусы заказов</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Статус</th>
+                    <th>Количество</th>
+                    <th>Доход</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for stat in status_stats %}
+                <tr class="status-{{ stat.status }}">
+                    <td>
+                        {% if stat.status == 'pending' %}⏳ Ожидает
+                        {% elif stat.status == 'processing' %}🔄 В обработке
+                        {% elif stat.status == 'shipped' %}🚚 Отправлен
+                        {% elif stat.status == 'delivered' %}✅ Доставлен
+                        {% elif stat.status == 'cancelled' %}❌ Отменен
+                        {% else %}{{ stat.status }}{% endif %}
+                    </td>
+                    <td>{{ stat.count }}</td>
+                    <td>${{ stat.revenue|default:0|floatformat:2 }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+    <!-- Последние заказы -->
+    <div style="flex: 1; min-width: 300px;">
+        <h3>Последние заказы</h3>
+        {% if recent_orders %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Клиент</th>
+                        <th>Дата</th>
+                        <th>Сумма</th>
+                        <th>Статус</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in recent_orders %}
+                    <tr class="status-{{ order.status }}">
+                        <td><a href="/lab5/orders/{{ order.id }}/">#{{ order.id }}</a></td>
+                        <td>{{ order.customer.name }}</td>
+                        <td>{{ order.order_date|date:"d.m.Y H:i" }}</td>
+                        <td>${{ order.total_amount|floatformat:2 }}</td>
+                        <td>
+                            {% if order.status == 'pending' %}⏳
+                            {% elif order.status == 'processing' %}🔄
+                            {% elif order.status == 'shipped' %}🚚
+                            {% elif order.status == 'delivered' %}✅
+                            {% elif order.status == 'cancelled' %}❌
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>Нет заказов</p>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Условные блоки для отображения предупреждений -->
+{% if total_orders == 0 %}
+    <div class="alert alert-warning">
+        ⚠️ В системе пока нет заказов. Начните добавлять товары и клиентов.
+    </div>
+{% endif %}
+
+{% if order_stats.avg_order_value and order_stats.avg_order_value < 50 %}
+    <div class="alert alert-warning">
+        💡 Средний чек (${{ order_stats.avg_order_value|floatformat:2 }}) ниже рекомендуемого. Рассмотрите возможность увеличения.
+    </div>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends "lab4/base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Project List" %}{% endblock %}
+
+{% block content %}
+<h2>{% trans "Project List" %}</h2>
+
+{% if projects %}
+    <table>
+        <thead>
+            <tr>
+                <th>{% trans "Project Name" %}</th>
+                <th>{% trans "Description" %}</th>
+                <th>{% trans "Start Date" %}</th>
+                <th>{% trans "End Date" %}</th>
+                <th>{% trans "Budget" %}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for project in projects %}
+            <tr>
+                <td>{{ project.name }}</td>
+                <td>{{ project.description }}</td>
+                <td>{{ project.start_date }}</td>
+                <td>{{ project.end_date }}</td>
+                <td>${{ project.budget }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>{% trans "No project data" %}</p>
+{% endif %}
+{% endblock %}

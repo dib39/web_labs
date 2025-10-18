@@ -1,0 +1,29 @@
+{% extends "lab4/base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Department List" %}{% endblock %}
+
+{% block content %}
+<h2>{% trans "Department List" %}</h2>
+
+{% if departments %}
+    <table>
+        <thead>
+            <tr>
+                <th>{% trans "Department Name" %}</th>
+                <th>{% trans "Employee Count" %}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for department in departments %}
+            <tr>
+                <td>{{ department.name }}</td>
+                <td>{{ department.employee_set.count }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>{% trans "No department data" %}</p>
+{% endif %}
+{% endblock %}

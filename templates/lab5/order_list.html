@@ -1,0 +1,94 @@
+{% extends "lab5/base.html" %}
+{% load humanize %}
+
+{% block title %}Список заказов{% endblock %}
+
+{% block content %}
+<h2>📋 Список заказов</h2>
+
+<!-- Фильтры -->
+<div class="filters">
+    <form method="get">
+        <label>Статус:
+            <select name="status">
+                <option value="">Все</option>
+                <option value="pending" {% if status_filter == 'pending' %}selected{% endif %}>Ожидает</option>
+                <option value="processing" {% if status_filter == 'processing' %}selected{% endif %}>В обработке</option>
+                <option value="shipped" {% if status_filter == 'shipped' %}selected{% endif %}>Отправлен</option>
+                <option value="delivered" {% if status_filter == 'delivered' %}selected{% endif %}>Доставлен</option>
+                <option value="cancelled" {% if status_filter == 'cancelled' %}selected{% endif %}>Отменен</option>
+            </select>
+        </label>
+        
+        <label>Клиент:
+            <input type="text" name="customer" value="{{ customer_filter }}" placeholder="Поиск по клиенту">
+        </label>
+        
+        <button type="submit">Применить фильтры</button>
+        {% if status_filter or customer_filter %}
+            <a href="/lab5/orders/">Сбросить</a>
+        {% endif %}
+    </form>
+</div>
+
+<!-- Статистика -->
+<div style="margin-bottom: 20px;">
+    <strong>Найдено заказов: {{ total_orders }}</strong> | 
+    <strong>Общая сумма: ${{ total_revenue|floatformat:2|intcomma }}</strong>
+</div>
+
+<!-- Таблица заказов -->
+{% if orders %}
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Клиент</th>
+                <th>Дата заказа</th>
+                <th>Сумма</th>
+                <th>Статус</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+            <tr class="status-{{ order.status }}">
+                <td><strong>#{{ order.id }}</strong></td>
+                <td>{{ order.customer.name }}</td>
+                <td>{{ order.order_date|date:"d.m.Y H:i" }}</td>
+                <td>${{ order.total_amount|floatformat:2 }}</td>
+                <td>
+                    <span style="padding: 5px 10px; border-radius: 15px; font-size: 0.8em;">
+                        {% if order.status == 'pending' %}⏳ Ожидает
+                        {% elif order.status == 'processing' %}🔄 В обработке
+                        {% elif order.status == 'shipped' %}🚚 Отправлен
+                        {% elif order.status == 'delivered' %}✅ Доставлен
+                        {% elif order.status == 'cancelled' %}❌ Отменен
+                        {% endif %}
+                    </span>
+                </td>
+                <td>
+                    <a href="/lab5/orders/{{ order.id }}/">👁️ Просмотр</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <!-- Пагинация (простая реализация) -->
+    {% if orders|length > 10 %}
+    <div style="margin-top: 20px; text-align: center;">
+        <span>Показано {{ orders|length }} заказов</span>
+    </div>
+    {% endif %}
+    
+{% else %}
+    <div class="alert alert-warning">
+        {% if status_filter or customer_filter %}
+            🔍 Заказы по заданным фильтрам не найдены.
+        {% else %}
+            📭 В системе пока нет заказов.
+        {% endif %}
+    </div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}Система управления заказами{% endblock %}</title>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; background: #f5f5f5; }
+        .container { max-width: 1400px; margin: 0 auto; }
+        .header { background: #FF6B6B; color: white; padding: 20px; border-radius: 10px; }
+        .nav { background: white; padding: 15px; margin: 20px 0; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .nav a { margin-right: 20px; text-decoration: none; color: #FF6B6B; font-weight: bold; }
+        .content { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background-color: #4ECDC4; color: white; }
+        .filters { background: #F7FFF7; padding: 20px; border-radius: 5px; margin-bottom: 20px; }
+        .stats-card { background: #FFE66D; padding: 20px; margin: 10px; border-radius: 5px; display: inline-block; min-width: 200px; }
+        .status-pending { background: #FFF9C4; }
+        .status-processing { background: #B3E5FC; }
+        .status-shipped { background: #C8E6C9; }
+        .status-delivered { background: #A5D6A7; }
+        .status-cancelled { background: #FFCDD2; }
+        .alert { padding: 15px; border-radius: 5px; margin: 10px 0; }
+        .alert-success { background: #C8E6C9; color: #2E7D32; }
+        .alert-warning { background: #FFF9C4; color: #F57F17; }
+        .alert-error { background: #FFCDD2; color: #C62828; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🛍️ Система управления заказами</h1>
+            <p>Панель управления интернет-магазином</p>
+        </div>
+        
+        <div class="nav">
+            <a href="/lab5/">Дашборд</a>
+            <a href="/lab5/orders/">Заказы</a>
+            <a href="/lab5/products/">Товары</a>
+            <a href="/admin/lab5/">Админка</a>
+        </div>
+        
+        <div class="content">
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+</body>
+</html>

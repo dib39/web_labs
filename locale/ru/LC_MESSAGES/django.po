@@ -2,86 +2,150 @@ msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 
-#: lab4/models.py:4
+# Модели
 msgid "Department"
 msgstr "Отдел"
 
-#: lab4/models.py:5
 msgid "Departments"
 msgstr "Отделы"
 
-#: lab4/models.py:11
 msgid "Employee"
 msgstr "Сотрудник"
 
-#: lab4/models.py:12
 msgid "Employees"
 msgstr "Сотрудники"
 
-#: lab4/models.py:25
 msgid "Project"
 msgstr "Проект"
 
-#: lab4/models.py:26
 msgid "Projects"
 msgstr "Проекты"
 
-#: lab4/models.py:39
 msgid "Project assignment"
 msgstr "Назначение на проект"
 
-#: lab4/models.py:40
 msgid "Project assignments"
 msgstr "Назначения на проекты"
 
-#: lab4/templates/lab4/base.html:8
-msgid "Employee Management System"
-msgstr "Система управления сотрудниками"
+# Поля моделей
+msgid "Name"
+msgstr "Название"
 
-#: lab4/templates/lab4/base.html:22
-msgid "Employees"
-msgstr "Сотрудники"
-
-#: lab4/templates/lab4/base.html:23
-msgid "Projects"
-msgstr "Проекты"
-
-#: lab4/templates/lab4/base.html:24
-msgid "Departments"
-msgstr "Отделы"
-
-#: lab4/templates/lab4/base.html:25
-msgid "Statistics"
-msgstr "Статистика"
-
-#: lab4/templates/lab4/employee_list.html:4
-msgid "Employee List"
-msgstr "Список сотрудников"
-
-#: lab4/templates/lab4/employee_list.html:11
-msgid "First Name"
+msgid "First name"
 msgstr "Имя"
 
-#: lab4/templates/lab4/employee_list.html:12
-msgid "Last Name"
+msgid "Last name"
 msgstr "Фамилия"
 
-#: lab4/templates/lab4/employee_list.html:13
 msgid "Position"
 msgstr "Должность"
 
-#: lab4/templates/lab4/employee_list.html:14
-msgid "Department"
-msgstr "Отдел"
-
-#: lab4/templates/lab4/employee_list.html:15
-msgid "Hire Date"
+msgid "Hire date"
 msgstr "Дата найма"
 
-#: lab4/templates/lab4/employee_list.html:16
 msgid "Salary"
 msgstr "Зарплата"
 
-#: lab4/templates/lab4/employee_list.html:30
+msgid "Description"
+msgstr "Описание"
+
+msgid "Start date"
+msgstr "Дата начала"
+
+msgid "End date"
+msgstr "Дата окончания"
+
+msgid "Budget"
+msgstr "Бюджет"
+
+msgid "Role"
+msgstr "Роль"
+
+msgid "Assignment date"
+msgstr "Дата назначения"
+
+# Шаблоны - заголовки
+msgid "Employee Management System"
+msgstr "Система управления сотрудниками"
+
+msgid "Employee List"
+msgstr "Список сотрудников"
+
+msgid "Project List"
+msgstr "Список проектов"
+
+msgid "Department List"
+msgstr "Список отделов"
+
+msgid "Statistics"
+msgstr "Статистика"
+
+msgid "Company Statistics"
+msgstr "Статистика компании"
+
+# Навигация
+msgid "Employees"
+msgstr "Сотрудники"
+
+msgid "Projects"
+msgstr "Проекты"
+
+msgid "Departments"
+msgstr "Отделы"
+
+# Таблицы
+msgid "First Name"
+msgstr "Имя"
+
+msgid "Last Name"
+msgstr "Фамилия"
+
+msgid "Department"
+msgstr "Отдел"
+
+msgid "Hire Date"
+msgstr "Дата найма"
+
+msgid "Salary"
+msgstr "Зарплата"
+
+msgid "Project Name"
+msgstr "Название проекта"
+
+msgid "Description"
+msgstr "Описание"
+
+msgid "Start Date"
+msgstr "Дата начала"
+
+msgid "End Date"
+msgstr "Дата окончания"
+
+msgid "Budget"
+msgstr "Бюджет"
+
+msgid "Department Name"
+msgstr "Название отдела"
+
+msgid "Employee Count"
+msgstr "Количество сотрудников"
+
+# Статистика
+msgid "Total Employees"
+msgstr "Всего сотрудников"
+
+msgid "Total Projects"
+msgstr "Всего проектов"
+
+msgid "Total Departments"
+msgstr "Всего отделов"
+
+# Сообщения
 msgid "No employee data"
 msgstr "Нет данных о сотрудниках"
+
+msgid "No project data"
+msgstr "Нет данных о проектах"
+
+msgid "No department data"
+msgstr "Нет данных об отделах"
